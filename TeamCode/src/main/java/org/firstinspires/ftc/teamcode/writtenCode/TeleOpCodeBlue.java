@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.writtenCode;
 
-import static org.firstinspires.ftc.teamcode.writtenCode.auto.autoFarBlue.endPose;
+import static org.firstinspires.ftc.teamcode.writtenCode.auto.autoCloseBlue.endPose;
 import static org.firstinspires.ftc.teamcode.writtenCode.controllers.IntakeController.IntakeStatus.OFF;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -59,7 +59,7 @@ public class TeleOpCodeBlue extends LinearOpMode {
                                   double leftTrigger, double rightTrigger, double rate) {
 
         double y = -gamepad2.left_stick_y;
-        double x = gamepad2.left_stick_x * 1.05;
+        double x = (gamepad2.right_trigger - gamepad2.left_trigger) * 1.05;
         double rx = gamepad2.right_stick_x;
 
 
@@ -100,7 +100,7 @@ public class TeleOpCodeBlue extends LinearOpMode {
     // 0 = none, 1 = close shot, 2 = far shot, 3 = fixed shot (X button)
     public static int shotMode = 0;
 
-    public static double delayShoot       = 0.1;
+    public static double delayShoot       = 0.18;
     public static double shootEndCounter  = 0.2;
 
     public static Pose startingPose = new Pose(90, 9, 0);
@@ -111,7 +111,7 @@ public class TeleOpCodeBlue extends LinearOpMode {
     public static double turretOffset = 0.0;
 
     public static double robot_pose_x, robot_pose_y, robot_angle;
-    public static double goal_pose_x = 0, goal_pose_y = 144;
+    public static double goal_pose_x = 3, goal_pose_y = 142;
 
     public static double turret_field_x, turret_field_y;
 
@@ -422,6 +422,9 @@ public class TeleOpCodeBlue extends LinearOpMode {
                 shootEndTime.reset();
                 shootTransfer  = false;
             }
+
+            if(stopperController.currentStatus == StopperController.StopperStatus.SHOOT)
+            {gamepad2.rumble(1, 1, 100);}
 
             if (turretOn)
                 turretController.currentStatus = TurretController.TurretStatus.RUNTO;
